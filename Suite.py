@@ -9,7 +9,7 @@ import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-import elementalconnect
+import discord
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -105,7 +105,7 @@ def _write_last_bump(ts):
     os.replace(tmp, p)
 
 
-class Suite(elementalconnect.Client):
+class Suite(discord.Client):
 
     MAX_FAILURES = 5
     FAILURE_RETRY_DELAY = 30
@@ -146,10 +146,10 @@ class Suite(elementalconnect.Client):
 
         if self.level == 1:
             await self.change_presence(
-                activity=elementalconnect.Activity(
-                    type=elementalconnect.ActivityType.watching,
+                activity=discord.Activity(
+                    type=discord.ActivityType.watching,
                     name=CONFIG.get("activity_name", "")),
-                status=elementalconnect.Status.online)
+                status=discord.Status.online)
 
         if self._cycle_task is None or self._cycle_task.done():
             self._cycle_task = asyncio.create_task(self.cycle())
@@ -344,14 +344,14 @@ def main():
         ap.error("--max-sends deve essere >= 1")
 
     if not TOKEN:
-        raise SystemExit("Set ELEMENTAL_TOKEN test only")
+        raise SystemExit("Set ELEMENTAL_TOKEN")
 
     profile = load_profile()
 
     bot = Suite(args.level, profile, args.max_sends)
     try:
         bot.run(TOKEN)
-    except elementalconnect.LoginFailure:
+    except discord.LoginFailure:
         print("Invalid token")
     except KeyboardInterrupt:
         print("Interrotto")
