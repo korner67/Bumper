@@ -1,0 +1,9 @@
+{
+  "channel_id": 1550043687382294602,
+  "guild_id": 1550043686816190535,
+  "target_application_id": 302050872383242240,
+  "min_interval": 7380,
+  "max_interval": 11400,
+  "jitter_range": 1800,
+  "activity_name": ""
+}
